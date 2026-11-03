@@ -17,10 +17,15 @@
   button { font-size:19px; padding:14px 18px; margin:8px 8px 0 0; border-radius:10px;
            border:2px solid var(--teal); background:#fff; color:var(--teal); cursor:pointer; }
   button:hover, button:focus { background:var(--teal); color:#fff; outline:3px solid #ffb703; }
+  button:disabled { opacity:.55; cursor:default; }
+  button:disabled:hover { background:#fff; color:var(--teal); outline:none; }
   .feed { display:none; margin-top:16px; padding:16px; border-radius:10px; }
   .feed.ok { display:block; background:#e6f4ea; border:2px solid #1e7e34; }
   .feed.no { display:block; background:#fdecea; border:2px solid #b00020; }
-  #resultado { display:none; }
+  #barra { height:14px; background:#d3dedf; border-radius:8px; margin:6px 0 0; overflow:hidden; display:none; }
+  #barra > div { height:100%; width:0; background:var(--teal); border-radius:8px; transition:width .3s; }
+  #pcont { display:none; color:var(--teal); font-weight:bold; margin:10px 0 0; }
+  .bigbtn { background:var(--teal); color:#fff; font-weight:bold; }
   footer { text-align:center; font-size:15px; color:#52616C; padding:24px 16px; }
   a { color:var(--teal); }
 </style>
@@ -29,10 +34,22 @@
 <header>
   <div style="letter-spacing:2px;font-size:15px;">SEGURANÇA DIGITAL / ATIVIDADE EXTENSIONISTA</div>
   <h1 style="margin:8px 0 0;">Será que é golpe?<br>Teste seus reflexos digitais</h1>
-  <p>6 situações do dia a dia. Leia, responda e aprenda. Exemplos fictícios, criados para fins educativos.</p>
+  <p>8 situações do dia a dia. Leia, responda e aprenda. Exemplos fictícios, criados para fins educativos.</p>
 </header>
-<main id="quiz"></main>
-<section class="card" id="resultado" aria-live="polite"></section>
+<main>
+  <div id="pcont">Pergunta 1 de 8</div>
+  <div id="barra" aria-hidden="true"><div id="preench"></div></div>
+  <section class="card" id="inicio">
+    <h2 style="margin-top:0;color:var(--navy);">Como funciona</h2>
+    <p>Você vai ver <strong>8 situações</strong> que acontecem de verdade com muita gente:
+    mensagens no WhatsApp, ligações, anúncios, e-mails e SMS. Para cada uma, escolha se
+    <strong>é golpe</strong>, se <strong>é seguro</strong> ou se <strong>é melhor verificar</strong>.</p>
+    <p>Ao final, você recebe sua pontuação e as <strong>4 regras de ouro</strong> para não cair em golpes.</p>
+    <button class="bigbtn" id="comecar">Começar o teste</button>
+  </section>
+  <div id="quiz" style="display:none;"></div>
+  <section class="card" id="resultado" style="display:none;" aria-live="polite"></section>
+</main>
 <footer>
   Material educativo elaborado por Enzo Francisco Costa Dadalto Moulin<br>
   Atividade Extensionista 3 — Análise e Desenvolvimento de Sistemas (Gran Faculdade)<br>
@@ -53,24 +70,35 @@ var PERGUNTAS = [
   { t: "Chega um SMS dos “Correios” com um link para pagar uma taxa e liberar sua encomenda. Você clica?",
     exp: "É golpe (phishing). Correios e bancos não cobram taxas por SMS com link. Apague a mensagem e consulte apenas o site ou aplicativo oficial." },
   { t: "Você recebe um e-mail do seu banco pedindo para atualizar o cadastro clicando num link. É seguro clicar?",
-    exp: "É golpe (na maioria dos casos). Não clique no link do e-mail: abra o aplicativo oficial do banco ou digite você o endereço do site. Links por e-mail podem levar a páginas falsas." }
+    exp: "É golpe na maioria dos casos. Não clique no link do e-mail: abra o aplicativo oficial do banco ou digite você o endereço do site. Links por e-mail podem levar a páginas falsas." },
+  { t: "Um perfil recém-criado numa rede social, sem foto e quase sem seguidores, oferece uma vaga de emprego com salário alto, mas pede uma “taxa de cadastro” antecipada. É oportunidade?",
+    exp: "É golpe. Emprego de verdade nunca cobra taxa para contratar. Desconfie de perfis novos com ofertas boas demais e nunca pague para conseguir trabalho." },
+  { t: "Uma loja onde você já tem cadastro envia um e-mail com uma oferta e um botão para “ver a promoção”. Como aproveitar com segurança?",
+    exp: "Verifique por conta própria: em vez de clicar no botão do e-mail, abra o aplicativo ou o site da loja digitando o endereço. Se a oferta existir lá, é segura." }
 ];
 var OPS = ["É seguro / pode confiar", "É golpe", "Preciso verificar melhor"];
-// índice da resposta correta por pergunta (0, 1 ou 2)
-var CERTAS = [1, 1, 1, 2, 1, 1];
+var CERTAS = [1, 1, 1, 2, 1, 1, 1, 2];
+var TOTAL = PERGUNTAS.length;
 var acertos = 0, respondidas = 0;
 var box = document.getElementById("quiz");
 
 PERGUNTAS.forEach(function(p, i) {
   var c = document.createElement("div");
   c.className = "card";
-  var h = "<p><span class='qnum'>Situação " + (i+1) + " de 6</span></p><p>" + p.t + "</p>";
+  var h = "<p><span class='qnum'>Situação " + (i+1) + " de " + TOTAL + "</span></p><p>" + p.t + "</p>";
   OPS.forEach(function(op, j) {
     h += "<button data-q='" + i + "' data-o='" + j + "'>" + op + "</button>";
   });
   h += "<div class='feed' id='f" + i + "'></div>";
   c.innerHTML = h;
   box.appendChild(c);
+});
+document.getElementById("comecar").addEventListener("click", function() {
+  document.getElementById("inicio").style.display = "none";
+  box.style.display = "block";
+  document.getElementById("barra").style.display = "block";
+  document.getElementById("pcont").style.display = "block";
+  box.scrollIntoView();
 });
 box.addEventListener("click", function(e) {
   if (e.target.tagName !== "BUTTON" || e.target.disabled) return;
@@ -81,20 +109,37 @@ box.addEventListener("click", function(e) {
   if (o === CERTAS[q]) { acertos++; f.className = "feed ok"; f.innerHTML = "<strong>✔ Correto.</strong> " + PERGUNTAS[q].exp; }
   else { f.className = "feed no"; f.innerHTML = "<strong>✘ Atenção.</strong> " + PERGUNTAS[q].exp; }
   respondidas++;
-  if (respondidas === 6) mostraResultado();
+  document.getElementById("preench").style.width = (respondidas / TOTAL * 100) + "%";
+  document.getElementById("pcont").textContent = respondidas < TOTAL
+    ? "Pergunta " + (respondidas + 1) + " de " + TOTAL
+    : "Teste concluído!";
+  if (respondidas === TOTAL) mostraResultado();
 });
 function mostraResultado() {
   var r = document.getElementById("resultado");
-  var msg = acertos === 6 ? "Excelente! Você identificou todos os sinais de golpe."
-    : acertos >= 4 ? "Muito bem! Revise as situações que passaram e compartilhe este teste com sua família."
+  var msg = acertos === TOTAL ? "Excelente! Você identificou todos os sinais de golpe."
+    : acertos >= 6 ? "Muito bem! Revise as situações que passaram e compartilhe este teste com sua família."
     : "Vale reler com calma: golpe bom é o que parece urgente. Na dúvida, nunca informe senhas, códigos ou faça PIX para desconhecidos.";
   r.style.display = "block";
-  r.innerHTML = "<h2>Seu resultado: " + acertos + " de 6</h2><p>" + msg + "</p>" +
-    "<p><strong>Regras de ouro:</strong> 1) Nunca compartilhe senhas, códigos de SMS ou token. " +
+  r.innerHTML = "<h2 style='margin-top:0;color:var(--navy);'>Seu resultado: " + acertos + " de " + TOTAL + "</h2><p>" + msg + "</p>" +
+    "<p><strong>As 4 regras de ouro:</strong> 1) Nunca compartilhe senhas, códigos de SMS ou token. " +
     "2) Desconfie de pressa, desconto exagerado e prêmios. " +
     "3) Confira por outro canal antes de transferir dinheiro. " +
-    "4) Acesse bancos e lojas digitando o endereço ou pelo aplicativo oficial.</p>";
+    "4) Acesse bancos e lojas digitando o endereço ou pelo aplicativo oficial.</p>" +
+    "<button class='bigbtn' id='refazer'>Refazer o teste</button>" +
+    "<button id='compartilhar'>Compartilhar este teste</button>" +
+    "<p id='copiado' style='display:none;color:var(--teal);font-weight:bold;'>✔ Link copiado! Cole onde quiser compartilhar.</p>";
   r.scrollIntoView();
+  document.getElementById("refazer").addEventListener("click", function() { location.reload(); });
+  document.getElementById("compartilhar").addEventListener("click", function() {
+    var url = location.href;
+    if (navigator.share) { navigator.share({ title: document.title, url: url }); }
+    else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function() {
+        document.getElementById("copiado").style.display = "block";
+      });
+    }
+  });
 }
 </script>
 </body>
