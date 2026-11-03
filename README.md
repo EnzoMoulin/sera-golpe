@@ -5,8 +5,11 @@ Página educativa interativa com 6 situações fictícias do dia a dia
 SMS dos Correios, e-mail bancário), com resposta e explicação educativas.
 
 - **Público:** adultos com pouca familiaridade com segurança digital.
-- **Formato:** página estática (HTML + CSS + JS), sem login nem banco de dados.
+- **Formato:** página estática (HTML + CSS + JS em arquivos separados), sem login nem banco de dados.
 - **Acesso:** página publicada via GitHub Pages (link abaixo).
+
+## Demonstração
+![Tela inicial do quiz](demo.png)
 
 ## Publicação
 https://enzomoulin.github.io/sera-golpe/
