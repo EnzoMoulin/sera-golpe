@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Será golpe? Teste seus reflexos digitais</title>
+<style>
+  :root { --navy:#102F43; --teal:#006D77; --pale:#EAF5F4; --ink:#203442; }
+  * { box-sizing:border-box; }
+  body { font-family:Verdana,Arial,sans-serif; background:var(--pale); color:var(--ink);
+         margin:0; padding:0; font-size:19px; line-height:1.6; }
+  header { background:var(--navy); color:#fff; padding:28px 20px; text-align:center; }
+  header p { margin:6px 0 0; font-size:17px; }
+  main { max-width:760px; margin:0 auto; padding:20px; }
+  .card { background:#fff; border:2px solid #B7DCD8; border-radius:12px; padding:24px; margin:18px 0; }
+  .qnum { color:var(--teal); font-weight:bold; }
+  button { font-size:19px; padding:14px 18px; margin:8px 8px 0 0; border-radius:10px;
+           border:2px solid var(--teal); background:#fff; color:var(--teal); cursor:pointer; }
+  button:hover, button:focus { background:var(--teal); color:#fff; outline:3px solid #ffb703; }
+  .feed { display:none; margin-top:16px; padding:16px; border-radius:10px; }
+  .feed.ok { display:block; background:#e6f4ea; border:2px solid #1e7e34; }
+  .feed.no { display:block; background:#fdecea; border:2px solid #b00020; }
+  #resultado { display:none; }
+  footer { text-align:center; font-size:15px; color:#52616C; padding:24px 16px; }
+  a { color:var(--teal); }
+</style>
+</head>
+<body>
+<header>
+  <div style="letter-spacing:2px;font-size:15px;">SEGURANÇA DIGITAL / ATIVIDADE EXTENSIONISTA</div>
+  <h1 style="margin:8px 0 0;">Será golpe?<br>Teste seus reflexos digitais</h1>
+  <p>6 situações do dia a dia. Leia, responda e aprenda. Exemplos fictícios, criados para fins educativos.</p>
+</header>
+<main id="quiz"></main>
+<section class="card" id="resultado" aria-live="polite"></section>
+<footer>
+  Material educativo elaborado por Enzo Francisco Costa Dadalto Moulin<br>
+  Atividade Extensionista 3 — Análise e Desenvolvimento de Sistemas (Gran Faculdade)<br>
+  Formato autônomo, remoto e assíncrono, conforme flexibilização do PAEE/NAP.<br>
+  Conteúdo baseado nos materiais públicos do <a href="https://cartilha.cert.br">CERT.br</a>
+  e da <a href="https://www.gov.br/anpd/pt-br/legislacao">ANPD (LGPD)</a>.
+</footer>
+<script>
+var PERGUNTAS = [
+  { t: "Você recebe uma mensagem no WhatsApp: “Oi, mãe/pai, troquei de número, salva esse novo. Chegou um código por SMS aí? Me manda, por favor.” O que você faz?",
+    exp: "É golpe. O código do SMS é a chave da sua conta: quem tem o código assume o seu WhatsApp. Nunca compartilhe códigos recebidos por SMS." },
+  { t: "Uma pessoa liga dizendo ser do seu banco e pede sua senha e o número do token para “confirmar uma compra suspeita”. É seguro informar?",
+    exp: "É golpe. Banco de verdade nunca pede senha nem token por telefone. Desligue e ligue você para o número oficial do banco." },
+  { t: "Um anúncio oferece celular novo com 80% de desconto, só hoje, pagamento adiantado via PIX para uma chave com nome de pessoa desconhecida. Vale a pena?",
+    exp: "É golpe. Desconto exagerado + pressa + PIX para desconhecido são os três sinais clássicos. Compre apenas em lojas e sites que você já conhece." },
+  { t: "Um parente que mora longe pede dinheiro urgente pelo WhatsApp, mas se recusa a fazer uma chamada de vídeo. O que fazer?",
+    exp: "Desconfie e verifique por outro canal: ligue para o número antigo da pessoa ou fale com outro familiar antes de transferir qualquer valor." },
+  { t: "Chega um SMS dos “Correios” com um link para pagar uma taxa e liberar sua encomenda. Você clica?",
+    exp: "É golpe (phishing). Correios e bancos não cobram taxas por SMS com link. Apague a mensagem e consulte apenas o site ou aplicativo oficial." },
+  { t: "Você recebe um e-mail do seu banco pedindo para atualizar o cadastro clicando num link. É seguro clicar?",
+    exp: "É golpe (na maioria dos casos). Não clique no link do e-mail: abra o aplicativo oficial do banco ou digite você o endereço do site. Links por e-mail podem levar a páginas falsas." }
+];
+var OPS = ["É seguro / pode confiar", "É golpe", "Preciso verificar melhor"];
+// índice da resposta correta por pergunta (0, 1 ou 2)
+var CERTAS = [1, 1, 1, 2, 1, 1];
+var acertos = 0, respondidas = 0;
+var box = document.getElementById("quiz");
+
+PERGUNTAS.forEach(function(p, i) {
+  var c = document.createElement("div");
+  c.className = "card";
+  var h = "<p><span class='qnum'>Situação " + (i+1) + " de 6</span></p><p>" + p.t + "</p>";
+  OPS.forEach(function(op, j) {
+    h += "<button data-q='" + i + "' data-o='" + j + "'>" + op + "</button>";
+  });
+  h += "<div class='feed' id='f" + i + "'></div>";
+  c.innerHTML = h;
+  box.appendChild(c);
+});
+box.addEventListener("click", function(e) {
+  if (e.target.tagName !== "BUTTON" || e.target.disabled) return;
+  var q = +e.target.getAttribute("data-q"), o = +e.target.getAttribute("data-o");
+  var btns = box.querySelectorAll("button[data-q='" + q + "']");
+  btns.forEach(function(b){ b.disabled = true; });
+  var f = document.getElementById("f" + q);
+  if (o === CERTAS[q]) { acertos++; f.className = "feed ok"; f.innerHTML = "<strong>✔ Correto.</strong> " + PERGUNTAS[q].exp; }
+  else { f.className = "feed no"; f.innerHTML = "<strong>✘ Atenção.</strong> " + PERGUNTAS[q].exp; }
+  respondidas++;
+  if (respondidas === 6) mostraResultado();
+});
+function mostraResultado() {
+  var r = document.getElementById("resultado");
+  var msg = acertos === 6 ? "Excelente! Você identificou todos os sinais de golpe."
+    : acertos >= 4 ? "Muito bem! Revise as situações que passaram e compartilhe este teste com sua família."
+    : "Vale reler com calma: golpe bom é o que parece urgente. Na dúvida, nunca informe senhas, códigos ou faça PIX para desconhecidos.";
+  r.style.display = "block";
+  r.innerHTML = "<h2>Seu resultado: " + acertos + " de 6</h2><p>" + msg + "</p>" +
+    "<p><strong>Regras de ouro:</strong> 1) Nunca compartilhe senhas, códigos de SMS ou token. " +
+    "2) Desconfie de pressa, desconto exagerado e prêmios. " +
+    "3) Confira por outro canal antes de transferir dinheiro. " +
+    "4) Acesse bancos e lojas digitando o endereço ou pelo aplicativo oficial.</p>";
+  r.scrollIntoView();
+}
+</script>
+</body>
+</html>
