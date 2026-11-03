@@ -1,11 +1,13 @@
 # Será que é golpe? — Teste seus reflexos digitais
 
-Página educativa interativa com 6 situações fictícias do dia a dia
+Página educativa interativa com 8 situações fictícias do dia a dia
 (WhatsApp clonado, falso banco, PIX com pressa, parente pedindo dinheiro,
-SMS dos Correios, e-mail bancário), com resposta e explicação educativas.
+SMS dos Correios, e-mail bancário, falsa vaga de emprego, oferta por e-mail),
+com resposta e explicação educativas.
 
 - **Público:** adultos com pouca familiaridade com segurança digital.
 - **Formato:** página estática (HTML + CSS + JS em arquivos separados), sem login nem banco de dados.
+- **Recursos:** tela de início, barra de progresso, pontuação com 4 regras de ouro, botões de refazer e compartilhar, layout responsivo.
 - **Acesso:** página publicada via GitHub Pages (link abaixo).
 
 ## Demonstração
