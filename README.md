@@ -1,4 +1,4 @@
-# Será golpe? — Teste seus reflexos digitais
+# Será que é golpe? — Teste seus reflexos digitais
 
 Página educativa interativa com 6 situações fictícias do dia a dia
 (WhatsApp clonado, falso banco, PIX com pressa, parente pedindo dinheiro,
