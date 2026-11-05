@@ -4,30 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Quiz educativo interativo com 8 situações do dia a dia sobre golpes digitais. Atividade Extensionista 3 — ADS (Gran Faculdade).">
+<meta property="og:title" content="Será que é golpe? Teste seus reflexos digitais">
+<meta property="og:description" content="Quiz interativo com 8 situações reais sobre golpes digitais, com explicações educativas.">
+<meta property="og:type" content="website">
 <title>Será que é golpe? Teste seus reflexos digitais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-  <div class="kicker">SEGURANÇA DIGITAL / ATIVIDADE EXTENSIONISTA</div>
-  <h1>Será que é golpe?<br>Teste seus reflexos digitais</h1>
-  <p>8 situações do dia a dia. Leia, responda e aprenda. Exemplos fictícios, criados para fins educativos.</p>
+<header class="hero">
+  <div class="hero-inner">
+    <p class="kicker">Segurança digital · Atividade extensionista</p>
+    <h1>Será que é golpe?<br>Teste seus reflexos digitais</h1>
+    <p class="sub">8 situações do dia a dia. Leia, responda e aprenda. Exemplos fictícios, criados para fins educativos.</p>
+  </div>
 </header>
-<main>
-  <div id="pcont">Pergunta 1 de 8</div>
-  <div id="barra" aria-hidden="true"><div id="preench"></div></div>
+<main class="container">
+  <p id="pcont" aria-live="polite">Pergunta 1 de 8</p>
+  <div id="barra" role="progressbar" aria-label="Progresso do teste" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><div id="preench"></div></div>
   <section class="card" id="inicio">
-    <h2 style="margin-top:0;color:var(--navy);">Como funciona</h2>
+    <h2>Como funciona</h2>
     <p>Você vai ver <strong>8 situações</strong> que acontecem de verdade com muita gente:
     mensagens no WhatsApp, ligações, anúncios, e-mails e SMS. Para cada uma, escolha se
     <strong>é golpe</strong>, se <strong>é seguro</strong> ou se <strong>é melhor verificar</strong>.</p>
     <p>Ao final, você recebe sua pontuação e as <strong>4 regras de ouro</strong> para não cair em golpes.</p>
-    <button class="bigbtn" id="comecar">Começar o teste</button>
+    <button class="btn-primary" id="comecar">Começar o teste</button>
   </section>
   <div id="quiz" style="display:none;"></div>
   <section class="card" id="resultado" style="display:none;" aria-live="polite"></section>
 </main>
-<footer>
+<footer class="footer">
   Material educativo elaborado por Enzo Francisco Costa Dadalto Moulin<br>
   Atividade Extensionista 3 — Análise e Desenvolvimento de Sistemas (Gran Faculdade)<br>
   Formato autônomo, remoto e assíncrono, conforme flexibilização do PAEE/NAP.<br>

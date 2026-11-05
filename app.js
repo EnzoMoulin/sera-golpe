@@ -21,6 +21,7 @@ var CERTAS = [1, 1, 1, 2, 1, 1, 1, 2];
 var TOTAL = PERGUNTAS.length;
 var acertos = 0, respondidas = 0;
 var box = document.getElementById("quiz");
+var barra = document.getElementById("barra");
 
 PERGUNTAS.forEach(function(p, i) {
   var c = document.createElement("div");
@@ -36,7 +37,7 @@ PERGUNTAS.forEach(function(p, i) {
 document.getElementById("comecar").addEventListener("click", function() {
   document.getElementById("inicio").style.display = "none";
   box.style.display = "block";
-  document.getElementById("barra").style.display = "block";
+  barra.style.display = "block";
   document.getElementById("pcont").style.display = "block";
   box.scrollIntoView();
 });
@@ -50,6 +51,7 @@ box.addEventListener("click", function(e) {
   else { f.className = "feed no"; f.innerHTML = "<strong>✘ Atenção.</strong> " + PERGUNTAS[q].exp; }
   respondidas++;
   document.getElementById("preench").style.width = (respondidas / TOTAL * 100) + "%";
+  barra.setAttribute("aria-valuenow", respondidas);
   document.getElementById("pcont").textContent = respondidas < TOTAL
     ? "Pergunta " + (respondidas + 1) + " de " + TOTAL
     : "Teste concluído!";
@@ -60,14 +62,20 @@ function mostraResultado() {
   var msg = acertos === TOTAL ? "Excelente! Você identificou todos os sinais de golpe."
     : acertos >= 6 ? "Muito bem! Revise as situações que passaram e compartilhe este teste com sua família."
     : "Vale reler com calma: golpe bom é o que parece urgente. Na dúvida, nunca informe senhas, códigos ou faça PIX para desconhecidos.";
+  var best = null;
+  try {
+    best = parseInt(localStorage.getItem("seraGolpeBest") || "0", 10);
+    if (acertos > best) { localStorage.setItem("seraGolpeBest", String(acertos)); best = acertos; }
+  } catch (e) { /* armazenamento indisponível: segue sem recorde */ }
   r.style.display = "block";
   r.innerHTML = "<p style='text-align:center;'><span class='score'>" + acertos + "/" + TOTAL + "</span></p>" +
-    "<h2 style='margin-top:0;color:var(--navy);'>Seu resultado</h2><p>" + msg + "</p>" +
+    "<h2>Seu resultado</h2><p>" + msg + "</p>" +
+    (best !== null ? "<p id='best'>Sua melhor pontuação neste aparelho: " + best + " de " + TOTAL + ".</p>" : "") +
     "<p><strong>As 4 regras de ouro:</strong> 1) Nunca compartilhe senhas, códigos de SMS ou token. " +
     "2) Desconfie de pressa, desconto exagerado e prêmios. " +
     "3) Confira por outro canal antes de transferir dinheiro. " +
     "4) Acesse bancos e lojas digitando o endereço ou pelo aplicativo oficial.</p>" +
-    "<button class='bigbtn' id='refazer'>Refazer o teste</button>" +
+    "<button class='btn-primary' id='refazer'>Refazer o teste</button>" +
     "<button id='compartilhar'>Compartilhar este teste</button>" +
     "<p id='copiado'>✔ Link copiado! Cole onde quiser compartilhar.</p>";
   r.scrollIntoView();
