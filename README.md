@@ -11,6 +11,9 @@ cada uma com resposta e explicação educativa.
 
 🌐 **Demo:** https://enzomoulin.github.io/sera-golpe/
 
+📄 **Documentos da entrega** (síntese da experiência e dossiê de evidências, em PDF):
+https://enzomoulin.github.io/sera-golpe/evidencias/
+
 ## Demonstração
 ![Tela inicial do quiz](demo.png)
 
@@ -42,8 +45,26 @@ Ou abra `index.html` direto no navegador.
 ├── styles.css   # design system (tokens, componentes, responsivo)
 ├── app.js       # dados do quiz + lógica de pontuação/progresso
 ├── demo.png     # captura da tela inicial
+├── evidencias/  # documentos da AE3, sem interferir no produto
+│   ├── index.html                      # página que reúne os dois PDFs
+│   ├── 01-sintese-ae3.pdf              # síntese da experiência (5 páginas)
+│   └── 02-dossie-evidencias-ae3.pdf    # dossiê de evidências (7 páginas)
 └── README.md
 ```
+
+## Documentos da entrega
+
+A página [`evidencias/`](https://enzomoulin.github.io/sera-golpe/evidencias/) reúne os dois PDFs da
+atividade:
+
+- **Síntese da experiência** — planejamento, decisões de projeto, desenvolvimento, escolhas de
+  linguagem e de acessibilidade, e o que a atividade ensinou.
+- **Dossiê de evidências** — histórico de commits, integridade dos arquivos publicados (SHA-256),
+  registro da publicação no GitHub Pages e capturas reais das telas no ar, com o passo a passo de
+  cada verificação.
+
+Os documentos ficam em `evidencias/`, fora dos três arquivos do produto — publicar a entrega não
+altera `index.html`, `styles.css` nem `app.js`.
 
 ## Contexto acadêmico
 Atividade Extensionista 3 — Análise e Desenvolvimento de Sistemas
