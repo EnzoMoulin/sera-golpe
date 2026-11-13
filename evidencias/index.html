@@ -63,6 +63,19 @@
   .doc p { margin: 0; color: var(--muted); font-size: 15px; }
   .meta { margin-top: 12px; font-size: 13px; color: var(--muted); }
   .meta strong { color: var(--body); font-weight: 500; }
+  .video-card {
+    background: #fff; border: 1px solid var(--border-soft); border-radius: 16px;
+    padding: 26px 28px; margin: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.03) 0 2px 4px;
+  }
+  .video-card h2 {
+    color: var(--text); font-size: 22px; font-weight: 600; margin: 0 0 8px;
+    letter-spacing: -0.2px;
+  }
+  .video-card video {
+    display: block; width: 100%; height: auto; margin: 16px 0 12px;
+    border-radius: 10px; background: #0f172a; border: 1px solid var(--border-soft);
+  }
   .note {
     border-left: 3px solid var(--brand); background: #f7fdfa;
     border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 28px 0 8px;
@@ -87,7 +100,7 @@
   <div class="hero-inner">
     <p class="kicker">Atividade Extensionista 3 · Documentos</p>
     <h1>Síntese e evidências</h1>
-    <p class="sub">Os dois documentos que acompanham o quiz educativo
+    <p class="sub">Os documentos e o vídeo que acompanham o quiz educativo
     <em>Será que é golpe? Teste seus reflexos digitais</em>, disponível em
     <a href="https://enzomoulin.github.io/sera-golpe/">enzomoulin.github.io/sera-golpe</a>.</p>
   </div>
@@ -111,6 +124,21 @@
     para que qualquer leitor possa refazê-la.</p>
     <p class="meta"><strong>PDF</strong> · 7 páginas · abre com a nota de conformidade PAEE/NAP</p>
   </a>
+
+  <div class="video-card">
+    <span class="num">VÍDEO</span>
+    <h2>Screencast da aplicação</h2>
+    <p>O quiz em funcionamento, gravado da página publicada: as oito situações respondidas — uma
+    delas de propósito com a resposta errada, para mostrar o retorno de atenção — e, ao final, a
+    pontuação e as quatro regras de ouro. Sem áudio, sem voz e sem webcam; apenas a tela, com
+    legendas.</p>
+    <video controls preload="metadata" poster="screencast-ae3-poster.jpg">
+      <source src="screencast-ae3.mp4" type="video/mp4">
+      Seu navegador não reproduz o vídeo. <a href="screencast-ae3.mp4">Baixar o arquivo</a>.
+    </video>
+    <p class="meta"><strong>MP4</strong> · 26 segundos · 1440×756 · sem áudio ·
+    <a href="screencast-ae3.mp4">arquivo direto</a></p>
+  </div>
 
   <div class="note">
     <p><strong>Sobre o alcance:</strong> o teste é de acesso livre e não possui contador
